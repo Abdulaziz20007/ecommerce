@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./NewArrivals.scss";
-import { BiSolidStar } from "react-icons/bi";
 import { useProducts } from "../../../../hooks/useProducts";
+import { ProductCard } from "../../../../components";
 import { Link } from "react-router";
 
 function NewArrivals() {
@@ -11,15 +11,24 @@ function NewArrivals() {
 
   useEffect(() => {
     if (data) {
-      setProducts(data.slice(0, 4));
+      // Format products to match ProductCard component props
+      const formattedProducts = data.slice(0, 4).map((product) => ({
+        id: product.id,
+        title: product.title,
+        image: product.images[0],
+        rating: 4.5,
+        totalRatings: "45+",
+        price: product.price,
+        originalPrice: product.price + 10,
+        discount: 20,
+      }));
+      setProducts(formattedProducts);
     }
   }, [data]);
 
   if (!data) {
     return <div>Loading...</div>;
   }
-
-  console.log(products);
 
   return (
     <div className="container">
@@ -30,23 +39,10 @@ function NewArrivals() {
         {products.map((product) => (
           <Link
             to={`/productDetail/${product.id}`}
-            className="card"
             key={product.id}
+            className="product-link"
           >
-            <img src={product.images[0]} alt={product.title} />
-            <p>{product.title}</p>
-            <div className="stars">
-              <BiSolidStar className="star-icon" />
-              <BiSolidStar className="star-icon" />
-              <BiSolidStar className="star-icon" />
-              <BiSolidStar className="star-icon" />
-              <BiSolidStar className="star-icon" />
-              <p className="raiting">4.5/5</p>
-            </div>
-            <p className="price">
-              ${product.price} <span>${product.price + 10}</span>{" "}
-              <span className="disc">-20%</span>
-            </p>
+            <ProductCard product={product} />
           </Link>
         ))}
         <br />

@@ -1,11 +1,65 @@
-.top-selling-h2{
-    h2 {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-family: 'Poppins';
-        font-weight: 1000;
-        font-size: 48px;
-        margin-top: 64px;
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.top-selling-h2 {
+  margin-top: 75px;
+  margin-bottom: 40px;
+  text-align: center;
+
+  h2 {
+    font-size: 36px;
+    font-weight: 600;
+  }
+}
+
+.item-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 576px) {
+    grid-template-columns: 1fr;
+  }
+
+  .product-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+
+    // Add hover effect to product cards
+    &:hover {
+      .product-card {
+        transform: translateY(-5px);
+      }
     }
+  }
+
+  button {
+    margin-top: 45px;
+    padding: 15px 48px;
+    border-radius: 62px;
+    background-color: black;
+    color: white;
+    border: none;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    grid-column: 1/-1;
+    width: fit-content;
+    justify-self: center;
+    margin-bottom: 75px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #333;
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import { useParams } from "react-router";
 import { useProductById } from "../../hooks";
+import { useProducts } from "../../hooks/useProducts";
 import { useState, useEffect } from "react";
 import {
   Breadcrumb,
@@ -11,6 +12,7 @@ import "./ProductDetails.scss";
 
 function ProductDetails() {
   const [product, setProduct] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedColor, setSelectedColor] = useState(0);
   const [selectedSize, setSelectedSize] = useState("Large");
   const [quantity, setQuantity] = useState(1);
@@ -18,6 +20,7 @@ function ProductDetails() {
   const [activeTab, setActiveTab] = useState("reviews");
   const { id } = useParams();
   const { data } = useProductById(id);
+  const { data: productsData } = useProducts({ category: "Pants" });
 
   useEffect(() => {
     if (data) {
@@ -25,59 +28,21 @@ function ProductDetails() {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (productsData) {
+      const filtered = productsData
+        .filter((item) => item.id !== Number(id))
+        .slice(0, 4);
+      setRelatedProducts(filtered);
+    }
+  }, [productsData, id]);
+
   if (!data || !product) {
     return <div>Loading...</div>;
   }
 
   const colors = ["#6B5D44", "#2D5754", "#2B345D"];
   const sizes = ["Small", "Medium", "Large", "X-Large"];
-
-  const relatedProducts = [
-    {
-      id: 101,
-      title: "Polo with Contrast Trims",
-      image:
-        "https://images.unsplash.com/photo-1581655353564-df123a1eb820?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dCUyMHNoaXJ0fGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
-      rating: 4,
-      totalRatings: "40+",
-      price: 212,
-      originalPrice: 242,
-      discount: 20,
-    },
-    {
-      id: 102,
-      title: "Gradient Graphic T-shirt",
-      image:
-        "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8dCUyMHNoaXJ0fGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
-      rating: 3.5,
-      totalRatings: "35+",
-      price: 145,
-      originalPrice: 145,
-      discount: 0,
-    },
-    {
-      id: 103,
-      title: "Polo with Tipping Details",
-      image:
-        "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dCUyMHNoaXJ0fGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
-      rating: 4.5,
-      totalRatings: "45+",
-      price: 180,
-      originalPrice: 180,
-      discount: 0,
-    },
-    {
-      id: 104,
-      title: "Black Striped T-shirt",
-      image:
-        "https://images.unsplash.com/photo-1562157873-818bc0726f68?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHQlMjBzaGlydHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
-      rating: 5,
-      totalRatings: "50+",
-      price: 120,
-      originalPrice: 160,
-      discount: 20,
-    },
-  ];
 
   const decreaseQuantity = () => {
     if (quantity > 1) setQuantity(quantity - 1);
@@ -340,9 +305,15 @@ function ProductDetails() {
       <div className="recommendations-section">
         <h2 className="section-title">YOU MIGHT ALSO LIKE</h2>
         <div className="product-recommendations">
-          {relatedProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          {relatedProducts.length > 0 ? (
+            relatedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          ) : (
+            <div className="loading-recommendations">
+              Loading recommendations...
+            </div>
+          )}
         </div>
       </div>
     </div>

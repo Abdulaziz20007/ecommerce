@@ -7,7 +7,7 @@ const ProductCard = ({ product }) => {
     <div className="product-card">
       <div className="product-image-container">
         <img
-          src={product.image}
+          src={product.images[0]}
           alt={product.title}
           className="product-image"
         />
