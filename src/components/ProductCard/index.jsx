@@ -3,26 +3,36 @@ import StarRating from "../StarRating";
 import "./ProductCard.scss";
 
 const ProductCard = ({ product }) => {
+  if (!product) {
+    return null;
+  }
+
   return (
     <div className="product-card">
       <div className="product-image-container">
         <img
-          src={product.images[0]}
-          alt={product.title}
+          src={
+            product?.images && product.images.length > 0
+              ? product.images[0]
+              : "/placeholder-image.jpg"
+          }
+          alt={product?.title || "Product"}
           className="product-image"
         />
       </div>
-      <h3 className="product-title">{product.title}</h3>
+      <h3 className="product-title">{product?.title || "Unnamed Product"}</h3>
       <div className="product-rating">
-        <StarRating rating={product.rating} size="sm" />
-        <span className="total-ratings">{product.totalRatings}</span>
+        <StarRating rating={product?.rating || 0} size="sm" />
+        <span className="total-ratings">{product?.totalRatings || 0}</span>
       </div>
       <div className="product-price">
-        <span className="current-price">${product.price}</span>
-        {product.discount > 0 && (
+        <span className="current-price">${product?.price || 0}</span>
+        {product?.discount > 0 && (
           <>
-            <span className="original-price">${product.originalPrice}</span>
-            <span className="discount-badge">-{product.discount}%</span>
+            <span className="original-price">
+              ${product?.originalPrice || 0}
+            </span>
+            <span className="discount-badge">-{product?.discount || 0}%</span>
           </>
         )}
       </div>
