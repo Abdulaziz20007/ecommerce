@@ -11,7 +11,6 @@ function NewArrivals() {
 
   useEffect(() => {
     if (data) {
-      // Format products to match ProductCard component props
       const formattedProducts = data.slice(0, 4).map((product) => ({
         id: product.id,
         title: product.title,
@@ -42,7 +41,7 @@ function NewArrivals() {
             key={product.id}
             className="product-link"
           >
-            <ProductCard product={product} />
+            <ProductCard product={product} image={product.image} />
           </Link>
         ))}
         <br />

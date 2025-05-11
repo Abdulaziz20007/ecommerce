@@ -14,6 +14,10 @@
   }
 }
 
+a {
+  color: black;
+}
+
 .product-images {
   display: flex;
   flex: 1;
@@ -247,8 +251,6 @@
     }
   }
 }
-
-// Reviews Section Styles
 .product-tabs-section {
   margin-top: 60px;
   margin-bottom: 40px;
@@ -406,7 +408,6 @@
   }
 }
 
-// You Might Also Like Section Styles
 .recommendations-section {
   margin-top: 60px;
   margin-bottom: 60px;

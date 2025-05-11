@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useProductById } from "../../hooks";
 import { useProducts } from "../../hooks/useProducts";
 import { useState, useEffect } from "react";
@@ -56,7 +56,6 @@ function ProductDetails() {
     setSelectedImageIndex(index);
   };
 
-  // Sample review data
   const reviews = [
     {
       id: 1,
@@ -208,7 +207,6 @@ function ProductDetails() {
         </div>
       </div>
 
-      {/* Reviews Section */}
       <div className="product-tabs-section">
         <div className="tabs-container">
           <button
@@ -307,7 +305,17 @@ function ProductDetails() {
         <div className="product-recommendations">
           {relatedProducts.length > 0 ? (
             relatedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <Link
+                to={`/productDetail/${product.id}`}
+                key={product.id}
+                className="product-link"
+              >
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  image={product.images[0]}
+                />
+              </Link>
             ))
           ) : (
             <div className="loading-recommendations">

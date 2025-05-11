@@ -2,7 +2,7 @@ import React from "react";
 import StarRating from "../StarRating";
 import "./ProductCard.scss";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, image }) => {
   if (!product) {
     return null;
   }
@@ -11,11 +11,7 @@ const ProductCard = ({ product }) => {
     <div className="product-card">
       <div className="product-image-container">
         <img
-          src={
-            product?.images && product.images.length > 0
-              ? product.images[0]
-              : "/placeholder-image.jpg"
-          }
+          src={image}
           alt={product?.title || "Product"}
           className="product-image"
         />
