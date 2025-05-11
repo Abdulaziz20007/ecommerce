@@ -1,16 +1,16 @@
-import React from 'react'
-import FilterSidebar from './FilterSidebar'
-import { Breadcrumb } from '../../../components'
+import React from "react";
+import FilterSidebar from "./FIlterSidebar";
+import { Breadcrumb } from "../../../components";
 
-import './CategoryDetails.scss'
+import "./CategoryDetails.scss";
 
 const CategoryDetails = () => {
-    return (
-        <div className='container'>
-            <Breadcrumb />
-            <FilterSidebar />
-        </div>
-    )
-}
+  return (
+    <div className="container">
+      <Breadcrumb />
+      <FilterSidebar />
+    </div>
+  );
+};
 
-export default CategoryDetails
+export default CategoryDetails;
