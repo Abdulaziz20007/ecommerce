@@ -37,7 +37,7 @@ function NewArrivals() {
       <div className="item-cards">
         {products.map((product) => (
           <Link
-            to={`/productDetail/${product.id}`}
+            to={`/products/${product.id}`}
             key={product.id}
             className="product-link"
           >

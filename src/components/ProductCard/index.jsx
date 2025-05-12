@@ -7,11 +7,19 @@ const ProductCard = ({ product, image }) => {
     return null;
   }
 
+  const calculateDiscount = (price, originalPrice) => {
+    if (!originalPrice) return 0;
+    return Math.round(((originalPrice - price) / originalPrice) * 100);
+  };
+  const originalPrice = product.originalPrice || product.oldPrice;
+  const totalRatings = product.totalRatings || product.count;
+  const discount = calculateDiscount(product.price, originalPrice);
+
   return (
     <div className="product-card">
       <div className="product-image-container">
         <img
-          src={image}
+          src={image || product.images?.[0]}
           alt={product?.title || "Product"}
           className="product-image"
         />
@@ -19,16 +27,14 @@ const ProductCard = ({ product, image }) => {
       <h3 className="product-title">{product?.title || "Unnamed Product"}</h3>
       <div className="product-rating">
         <StarRating rating={product?.rating || 0} size="sm" />
-        <span className="total-ratings">{product?.totalRatings || 0}</span>
+        <span className="total-ratings">{totalRatings || 0}</span>
       </div>
       <div className="product-price">
         <span className="current-price">${product?.price || 0}</span>
-        {product?.discount > 0 && (
+        {originalPrice && originalPrice > product.price && (
           <>
-            <span className="original-price">
-              ${product?.originalPrice || 0}
-            </span>
-            <span className="discount-badge">-{product?.discount || 0}%</span>
+            <span className="original-price">${originalPrice}</span>
+            <span className="discount-badge">-{discount}%</span>
           </>
         )}
       </div>

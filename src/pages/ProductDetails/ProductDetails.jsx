@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router";
+import { Link, useParams } from "react-router-dom";
 import { useProductById } from "../../hooks";
 import { useProducts } from "../../hooks/useProducts";
 import { useState, useEffect } from "react";
@@ -14,7 +14,7 @@ function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedColor, setSelectedColor] = useState(0);
-  const [selectedSize, setSelectedSize] = useState("Large");
+  const [selectedSize, setSelectedSize] = useState("M");
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState("reviews");
@@ -42,7 +42,7 @@ function ProductDetails() {
   }
 
   const colors = ["#6B5D44", "#2D5754", "#2B345D"];
-  const sizes = ["Small", "Medium", "Large", "X-Large"];
+  const sizes = product.size || ["XS", "S", "M"];
 
   const decreaseQuantity = () => {
     if (quantity > 1) setQuantity(quantity - 1);
@@ -135,22 +135,23 @@ function ProductDetails() {
           <h1 className="product-title">{product.title}</h1>
 
           <div className="product-rating">
-            <StarRating rating={4.5} size="md" />
-            <span className="rating-text">4.5/5</span>
+            <StarRating rating={product.rating} size="md" />
+            <span className="rating-text">{product.rating}/5</span>
           </div>
 
           <div className="product-price">
             <span className="current-price">${product.price}</span>
-            <span className="original-price">
-              ${Math.round(product.price * 1.4)}
+            <span className="original-price">${product.oldPrice}</span>
+            <span className="discount-badge">
+              -
+              {Math.round(
+                ((product.oldPrice - product.price) / product.oldPrice) * 100
+              )}
+              %
             </span>
-            <span className="discount-badge">-40%</span>
           </div>
 
-          <p className="product-description">
-            This graphic t-shirt which is perfect for any occasion. Crafted from
-            a soft and breathable fabric, it offers superior comfort and style.
-          </p>
+          <p className="product-description">{product.description}</p>
 
           <div className="product-options">
             <div className="color-selection">
@@ -234,7 +235,8 @@ function ProductDetails() {
             <div className="reviews-section">
               <div className="reviews-header">
                 <h2 className="reviews-title">
-                  All Reviews <span className="reviews-count">(451)</span>
+                  All Reviews{" "}
+                  <span className="reviews-count">({product.count})</span>
                 </h2>
                 <div className="reviews-actions">
                   <button className="filter-button">
@@ -306,7 +308,7 @@ function ProductDetails() {
           {relatedProducts.length > 0 ? (
             relatedProducts.map((product) => (
               <Link
-                to={`/productDetail/${product.id}`}
+                to={`/products/${product.id}`}
                 key={product.id}
                 className="product-link"
               >
