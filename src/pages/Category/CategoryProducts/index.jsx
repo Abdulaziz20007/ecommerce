@@ -9,8 +9,6 @@ function CategoryProducts() {
   const location = useLocation();
   const { categoryId } = useParams();
   const queryParams = parseQueryParams(location.search);
-
-  // Merge the URL path parameter with query params, prioritizing categoryId from the path
   const params = {
     ...queryParams,
     category: categoryId || queryParams.category,

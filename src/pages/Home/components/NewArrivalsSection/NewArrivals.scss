@@ -69,3 +69,48 @@ hr {
   background-color: #e5e5e5;
   margin: 0 0 50px 0;
 }
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+
+  .new-arrivals-item {
+    margin-top: 30px;
+    margin-bottom: 20px;
+
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+  }
+
+  .item-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+
+    button {
+      margin-top: 30px;
+      padding: 12px 30px;
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+  }
+
+  hr {
+    margin: 0 0 30px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .new-arrivals-item {
+    h2 {
+      font-size: 20px;
+    }
+  }
+
+  .item-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}

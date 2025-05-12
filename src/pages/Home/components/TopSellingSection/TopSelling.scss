@@ -62,3 +62,39 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .top-selling-h2 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+    h2 {
+      font-size: 24px;
+    }
+  }
+
+  .item-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+
+    button {
+      margin-top: 30px;
+      padding: 12px 30px;
+      font-size: 14px;
+      margin-bottom: 40px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .top-selling-h2 {
+    h2 {
+      font-size: 20px;
+    }
+  }
+
+  .item-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}

@@ -45,7 +45,11 @@ function TopSelling() {
           </Link>
         ))}
         <br />
-        <button>View All</button>
+        <button>
+          <Link style={{ textDecoration: "none", color: "white" }} to="/sale">
+            View All
+          </Link>
+        </button>
       </div>
     </div>
   );

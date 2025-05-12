@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./NewArrivals.scss";
 import { useProducts } from "../../../../hooks/useProducts";
 import { ProductCard } from "../../../../components";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 function NewArrivals() {
   const [products, setProducts] = useState([]);
@@ -45,7 +45,11 @@ function NewArrivals() {
           </Link>
         ))}
         <br />
-        <button>View All</button>
+        <button>
+          <Link style={{ textDecoration: "none", color: "white" }} to="/new">
+            View All
+          </Link>
+        </button>
       </div>
       <hr />
     </div>

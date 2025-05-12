@@ -29,6 +29,10 @@ function ProductDetails() {
   }, [data]);
 
   useEffect(() => {
+    window.scroll(0, 0);
+  }, [data]);
+
+  useEffect(() => {
     if (productsData) {
       const filtered = productsData
         .filter((item) => item.id !== Number(id))
@@ -290,13 +294,13 @@ function ProductDetails() {
 
           {activeTab === "details" && (
             <div className="details-content">
-              <p>Product details will be displayed here.</p>
+              <p>Product details</p>
             </div>
           )}
 
           {activeTab === "faqs" && (
             <div className="faqs-content">
-              <p>Frequently asked questions will be displayed here.</p>
+              <p>Frequently asked questions</p>
             </div>
           )}
         </div>
