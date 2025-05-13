@@ -10,6 +10,7 @@ import Sale from "./pages/Sale/Sale";
 import New from "./pages/New/New";
 import Brands from "./pages/Brands/Brands";
 import Products from "./pages/Products";
+import CartPage from "./pages/Cart/";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="sale" element={<Sale />} />
           <Route path="new" element={<New />} />
           <Route path="brands" element={<Brands />} />
+          <Route path="/cart" element={<CartPage />} />
         </Route>
       </Routes>
       <ToastContainer />

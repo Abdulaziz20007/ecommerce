@@ -2,12 +2,15 @@ import { Link, useParams } from "react-router-dom";
 import { useProductById } from "../../hooks";
 import { useProducts } from "../../hooks/useProducts";
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../reducers/cart";
 import {
   Breadcrumb,
   StarRating,
   ProductCard,
   ReviewCard,
 } from "../../components";
+import { toast } from "react-toastify";
 import "./ProductDetails.scss";
 
 function ProductDetails() {
@@ -21,6 +24,7 @@ function ProductDetails() {
   const { id } = useParams();
   const { data } = useProductById(id);
   const { data: productsData } = useProducts({ category: "Pants" });
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (data) {
@@ -58,6 +62,27 @@ function ProductDetails() {
 
   const handleImageSelect = (index) => {
     setSelectedImageIndex(index);
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedSize || selectedColor === null) {
+      toast.warning("Please select size and color before adding to cart.");
+      return;
+    }
+
+    const cartItem = {
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      oldPrice: product.oldPrice || null,
+      image: product.images[0],
+      size: selectedSize,
+      color: colors[selectedColor],
+      quantity,
+    };
+
+    dispatch(addToCart(cartItem));
+    toast.success("Product added to cart!");
   };
 
   const reviews = [
@@ -206,7 +231,9 @@ function ProductDetails() {
                 </button>
               </div>
 
-              <button className="add-to-cart-btn">Add to Cart</button>
+              <button className="add-to-cart-btn" onClick={handleAddToCart}>
+                Add to Cart
+              </button>
             </div>
           </div>
         </div>

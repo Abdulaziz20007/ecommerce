@@ -60,7 +60,9 @@ function Header() {
 
           <div className="card-and-profile-icons">
             <BiSearch className="mobile-search-icon" />
-            <BiCart />
+            <Link to="/cart">
+              <BiCart />
+            </Link>
             <CgProfile />
           </div>
         </div>
