@@ -4,6 +4,7 @@ import { useProducts } from "../../hooks/useProducts";
 import "./New.scss";
 import { Breadcrumb } from "../../components";
 import { Link } from "react-router-dom";
+import FilterSidebar from "../Category/CategoryDetails/FIlterSidebar";
 
 function New() {
   const { data: products, isLoading } = useProducts();
@@ -18,21 +19,22 @@ function New() {
 
   return (
     <div className="container">
-      <div className="products-container">
-        <div className="products-header">
-          <h1>New Arrivals</h1>
+      <div className="products-header">
+        <h1>New Arrivals</h1>
+      </div>
+      <Breadcrumb />
+      <div className="new-page">
+        <div className="sidebar">
+          <FilterSidebar />
         </div>
-        <Breadcrumb />
-        <div className="products">
-          {products.map((product) => (
-            <Link to={`/products/${product.id}`}>
-              <ProductCard
-                key={product.id}
-                product={product}
-                image={product.images[0]}
-              />
-            </Link>
-          ))}
+        <div className="products-container">
+          <div className="products">
+            {products.map((product) => (
+              <Link key={product.id} to={`/products/${product.id}`}>
+                <ProductCard product={product} image={product.images[0]} />
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </div>

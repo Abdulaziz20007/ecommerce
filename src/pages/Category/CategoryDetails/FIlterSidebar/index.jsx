@@ -20,9 +20,12 @@ const FilterSidebar = () => {
   const [togglers, setTogglers] = useState({
     priceToggler: false,
     colorToggler: false,
-    sizeToggler: false,
-    dressStyleToggler: false,
+    sizeToggler: true,
+    dressStyleToggler: true,
   });
+
+  const [selectedSize, setSelectedSize] = useState("Large");
+  const [selectedDressStyle, setSelectedDressStyle] = useState(null);
 
   const handleToggle = (key) => {
     setTogglers({
@@ -50,8 +53,35 @@ const FilterSidebar = () => {
     { filterKey: "Pants", title: "Jeans" },
   ];
 
+  const sizeOptions = [
+    "XX-Small",
+    "X-Small",
+    "Small",
+    "Medium",
+    "Large",
+    "X-Large",
+    "XX-Large",
+    "3X-Large",
+    "4X-Large",
+  ];
+
+  const dressStyleOptions = ["Casual", "Formal", "Party", "Gym"];
+
   const handleCategoryClick = (categoryObj) => {
     navigate(`/category/${categoryObj.filterKey}`);
+  };
+
+  const handleSizeSelection = (size) => {
+    setSelectedSize(size === selectedSize ? null : size);
+  };
+
+  const handleApplyFilter = () => {
+    // Handle filter application logic here
+    console.log("Applying filters:", {
+      size: selectedSize,
+      dressStyle: selectedDressStyle,
+      priceRange,
+    });
   };
 
   return (
@@ -122,6 +152,80 @@ const FilterSidebar = () => {
         >
           <ColorPicker handleResult={(res) => console.log("result", res)} />
         </div>
+      </div>
+      <div className="hr-line" />
+      <div className="accordion">
+        <div
+          className="accordion-header"
+          onClick={() => handleToggle("sizeToggler")}
+        >
+          <p>Size</p>
+          <div
+            className={`arrow ${
+              togglers.sizeToggler ? "arrow-top" : "arrow-bottom"
+            }`}
+          >
+            <ArrowRightIcon />
+          </div>
+        </div>
+        <div
+          className={`accordion-body ${togglers.sizeToggler ? "open" : "hide"}`}
+        >
+          <div className="size-options">
+            {sizeOptions.map((size) => (
+              <div
+                key={size}
+                className={`size-option ${
+                  selectedSize === size ? "selected" : ""
+                }`}
+                onClick={() => handleSizeSelection(size)}
+              >
+                {size}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="hr-line" />
+      <div className="accordion">
+        <div
+          className="accordion-header"
+          onClick={() => handleToggle("dressStyleToggler")}
+        >
+          <p>Dress Style</p>
+          <div
+            className={`arrow ${
+              togglers.dressStyleToggler ? "arrow-top" : "arrow-bottom"
+            }`}
+          >
+            <ArrowRightIcon />
+          </div>
+        </div>
+        <div
+          className={`accordion-body ${
+            togglers.dressStyleToggler ? "open" : "hide"
+          }`}
+        >
+          <div className="dress-style-options">
+            {dressStyleOptions.map((style) => (
+              <div
+                key={style}
+                className="dress-style-item"
+                onClick={() =>
+                  setSelectedDressStyle(
+                    style === selectedDressStyle ? null : style
+                  )
+                }
+              >
+                <span>{style}</span>
+                <ArrowRightIcon />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="apply-filter-btn">
+        <button onClick={handleApplyFilter}>Apply Filter</button>
       </div>
     </div>
   );

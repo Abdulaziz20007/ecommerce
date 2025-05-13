@@ -6,6 +6,7 @@ import { Breadcrumb } from "../../components";
 import CategoryProducts from "./CategoryProducts";
 
 const CategoryDetails = () => {
+  
   return (
     <div className="container">
       <Breadcrumb />

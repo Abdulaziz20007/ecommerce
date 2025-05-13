@@ -1,6 +1,7 @@
 import React from "react";
 import StarRating from "../StarRating";
 import "./ReviewCard.scss";
+import { FcApproval } from "react-icons/fc";
 
 const ReviewCard = ({ review }) => {
   return (
@@ -35,7 +36,9 @@ const ReviewCard = ({ review }) => {
 
       <div className="reviewer-info">
         <span className="reviewer-name">{review.name}</span>
-        {review.verified && <span className="verified-badge"></span>}
+        <span className="verified-badge">
+          <FcApproval />
+        </span>
       </div>
 
       <p className="review-text">{review.text}</p>
