@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { ProductCard } from "../../../components";
 import { useProducts } from "../../../hooks/useProducts";
-import { data, Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { parseQueryParams } from "../../../utils";
 import "./CategoryProducts.scss";
 
@@ -18,7 +18,7 @@ function CategoryProducts() {
 
   useEffect(() => {
     window.scroll(0, 0);
-  }, [products]);
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;

@@ -15,17 +15,19 @@ const FilterSidebar = () => {
 
   const objParams = parseQueryParams(location.search);
 
-  console.log(objParams);
-
   const [togglers, setTogglers] = useState({
     priceToggler: false,
     colorToggler: false,
     sizeToggler: true,
-    dressStyleToggler: true,
   });
 
-  const [selectedSize, setSelectedSize] = useState("Large");
-  const [selectedDressStyle, setSelectedDressStyle] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(objParams.size || null);
+  const clientMinPrice = objParams.minPrice ? Number(objParams.minPrice) : 0;
+  const clientMaxPrice = objParams.maxPrice ? Number(objParams.maxPrice) : 500;
+  const [priceRange, setPriceRange] = useState([
+    clientMinPrice,
+    clientMaxPrice,
+  ]);
 
   const handleToggle = (key) => {
     setTogglers({
@@ -33,8 +35,6 @@ const FilterSidebar = () => {
       [key]: !togglers[key],
     });
   };
-
-  const [priceRange, setPriceRange] = useState([0, 500]);
 
   useEffect(() => {
     const el = document.querySelectorAll(".range-slider__thumb");
@@ -53,19 +53,7 @@ const FilterSidebar = () => {
     { filterKey: "Pants", title: "Jeans" },
   ];
 
-  const sizeOptions = [
-    "XX-Small",
-    "X-Small",
-    "Small",
-    "Medium",
-    "Large",
-    "X-Large",
-    "XX-Large",
-    "3X-Large",
-    "4X-Large",
-  ];
-
-  const dressStyleOptions = ["Casual", "Formal", "Party", "Gym"];
+  const sizeOptions = ["XS", "S", "M", "L", "XL", "XXL"];
 
   const handleCategoryClick = (categoryObj) => {
     navigate(`/category/${categoryObj.filterKey}`);
@@ -76,11 +64,29 @@ const FilterSidebar = () => {
   };
 
   const handleApplyFilter = () => {
-    // Handle filter application logic here
-    console.log("Applying filters:", {
-      size: selectedSize,
-      dressStyle: selectedDressStyle,
-      priceRange,
+    const queryParams = new URLSearchParams();
+
+    for (const [key, value] of Object.entries(objParams)) {
+      if (!["size", "minPrice", "maxPrice"].includes(key)) {
+        queryParams.set(key, value);
+      }
+    }
+
+    if (selectedSize) {
+      queryParams.set("size", selectedSize);
+    }
+
+    if (priceRange[0] > 0) {
+      queryParams.set("minPrice", priceRange[0]);
+    }
+    if (priceRange[1] < 500) {
+      queryParams.set("maxPrice", priceRange[1]);
+    }
+
+    const queryString = queryParams.toString();
+    navigate({
+      pathname: location.pathname,
+      search: queryString ? `?${queryString}` : "",
     });
   };
 
@@ -94,6 +100,7 @@ const FilterSidebar = () => {
       <div>
         {filterByCloths.map((item) => (
           <div
+            key={item.filterKey}
             onClick={() => handleCategoryClick(item)}
             className="filter-item"
           >
@@ -126,6 +133,7 @@ const FilterSidebar = () => {
             className="hola"
             min={5}
             max={500}
+            value={priceRange}
             onInput={(range) => setPriceRange(range)}
           />
         </div>
@@ -181,44 +189,6 @@ const FilterSidebar = () => {
                 onClick={() => handleSizeSelection(size)}
               >
                 {size}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="hr-line" />
-      <div className="accordion">
-        <div
-          className="accordion-header"
-          onClick={() => handleToggle("dressStyleToggler")}
-        >
-          <p>Dress Style</p>
-          <div
-            className={`arrow ${
-              togglers.dressStyleToggler ? "arrow-top" : "arrow-bottom"
-            }`}
-          >
-            <ArrowRightIcon />
-          </div>
-        </div>
-        <div
-          className={`accordion-body ${
-            togglers.dressStyleToggler ? "open" : "hide"
-          }`}
-        >
-          <div className="dress-style-options">
-            {dressStyleOptions.map((style) => (
-              <div
-                key={style}
-                className="dress-style-item"
-                onClick={() =>
-                  setSelectedDressStyle(
-                    style === selectedDressStyle ? null : style
-                  )
-                }
-              >
-                <span>{style}</span>
-                <ArrowRightIcon />
               </div>
             ))}
           </div>
